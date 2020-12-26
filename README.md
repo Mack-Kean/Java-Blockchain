@@ -1,2 +1,2 @@
 # Java Blockchain
- A proof of concept blockchain built in java
+### A proof of concept blockchain built in java

@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'checkstyle'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+//application {
+    //mainClassName = ""
+//}
