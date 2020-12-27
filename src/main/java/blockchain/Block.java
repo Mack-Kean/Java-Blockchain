@@ -1,4 +1,9 @@
+package blockchain;
+
 import java.util.Date;
+import java.security.MessageDigest;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * The class that creates the blocks that keep record of all trasactions in the blockchain.
@@ -9,7 +14,7 @@ public class Block {
     private String previousHash;
     private String data;
     private long timeStamp;
-    private int nonce;
+    private int nonce = 0;
 
     /**
      * The constructor for a new Block.
@@ -68,6 +73,37 @@ public class Block {
      * @return a unique 32 character string that should be equal to this.hash
      */
     public String calculateBlockHash() {
-        return ""; //this is where the block hash will be calculated
+        String dataToHash = this.previousHash
+          + Long.toString(this.timeStamp)
+          + Integer.toString(this.nonce)
+          + this.data;
+        MessageDigest digest = null;
+        byte[] bytes = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            bytes = digest.digest(dataToHash.getBytes("UTF_16"));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        }
+        StringBuffer buffer = new StringBuffer();
+        for (byte b : bytes) {
+            buffer.append(String.format("%02x", b));
+        }
+        return buffer.toString();
     }
+
+    /**
+     * Mines a block using a specified number of leading zeros required in the hash.
+     * @param prefix the number of leading zeros required in the block hash
+     * @return the unique 32 character block hash that conforms to the prefix
+     */
+    public String mineBlock(int prefix) {
+        String prefixString = new String(new char[prefix]).replace('\0', '0');
+        while (!hash.substring(0, prefix).equals(prefixString)) {
+            this.nonce++;
+            this.hash = calculateBlockHash();
+        }
+        return hash;
+    }
+
 }

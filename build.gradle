@@ -12,6 +12,6 @@ repositories {
     mavenCentral()
 }
 
-//application {
-    //mainClassName = ""
-//}
+application {
+    mainClassName = "blockchain.Network"
+}
