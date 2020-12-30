@@ -15,13 +15,32 @@ public class Network {
      */
     public static void main(String[] args) {
         BlockChain bc = new BlockChain();
+        Node node = new Node();
+        Block proposedBlock;
 
         Miner blockMiner = new Miner("Initial Transaction", "0");
-        bc.addBlock(blockMiner.getNewestBlock()); //this is where the actual block is mined
+        proposedBlock = blockMiner.getNewestBlock(); //this is where the actual block is mined
+        node.updateNode(bc, proposedBlock);
+        if (node.isChainValidated()) {
+            System.out.println("Genesis Node validated");
+            bc = node.getProposedBlockChain();
+        }
+        
         blockMiner.newTransaction("Second Transaction", bc.getLastBlockHash());
-        bc.addBlock(blockMiner.getNewestBlock());
+        proposedBlock = blockMiner.getNewestBlock(); //this is where the actual block is mined
+        node.updateNode(bc, proposedBlock);
+        if (node.isChainValidated()) {
+            System.out.println("Second Node validated");
+            bc = node.getProposedBlockChain();
+        }
+        
         blockMiner.newTransaction("Third Transaction", bc.getLastBlockHash());
-        bc.addBlock(blockMiner.getNewestBlock());
+        proposedBlock = blockMiner.getNewestBlock(); //this is where the actual block is mined
+        node.updateNode(bc, proposedBlock);
+        if (node.isChainValidated()) {
+            System.out.println("Third Node validated");
+            bc = node.getProposedBlockChain();
+        }
 
         ArrayList<Block> chainTester = bc.getChain();
 
