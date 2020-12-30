@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Network {
 
-    public static final int DIFFICULTY = 5;
+    public static final int DIFFICULTY = 4;
 
     /**
      * The main class for the blockchain proof of concept.
