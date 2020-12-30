@@ -27,6 +27,7 @@ public class Network {
 
         for (Block b : chainTester) {
             System.out.println("Hash Value: " + b.getHash());
+            System.out.println("Previous Hash Value: " + b.getPreviousHash());
             System.out.println("Nonce Value: " + b.getNonce()); //shows how much work was needed to mine the block
         }
 

@@ -9,12 +9,21 @@ import java.util.ArrayList;
 public class BlockChain {
 
     private ArrayList<Block> blockChain = new ArrayList<Block>();
-    private String lastBlockHash;
+    private Block lastBlock;
 
     /**
      * Default constructor to create the BlockChain Object.
      */
     public BlockChain() {
+    }
+
+    /**
+     * Constructor that takes an ArrayList of blocks to create the BlockChain object.
+     * @param blockChainList the ArrayList member object that contains all blocks in the
+     * newly created chain
+     */
+    public BlockChain(ArrayList<Block> blockChainList) {
+        this.blockChain = blockChainList;
     }
 
     /**
@@ -26,21 +35,21 @@ public class BlockChain {
     }
 
     /**
-     * Adds a block to the ArrayList stored in the BlockChain class and stores the hash of the previoud block.
+     * Adds a block to the ArrayList stored in the BlockChain class and stores last block in the chain.
      * @param block the Block instance to be added to the class
      */
     public void addBlock(Block block) {
         this.blockChain.add(block);
-        this.lastBlockHash = block.getPreviousHash();
+        this.lastBlock = block;
     }
 
     /**
-     * Accesses the Hash of the second most recent block added to the chain.
-     * A String of "0" is returned for a BlockChain of size 1
-     * @return the SHA-256 hash value of the second-last block in the chain.
+     * Returns the hash value of the second-last block in the chain.
+     * @return The SHA-256 hash value of the previous block stored in the last block in
+     * the chain
      */
     public String getLastBlockHash() {
-        return this.lastBlockHash;
+        return this.lastBlock.getHash();
     }
 
 }
