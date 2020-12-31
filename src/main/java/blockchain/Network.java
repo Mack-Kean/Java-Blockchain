@@ -42,6 +42,19 @@ public class Network {
             bc = node.getProposedBlockChain();
         }
 
+        blockMiner.newTransaction("Faulty Transaction", bc.getLastBlockHash());
+        proposedBlock = blockMiner.getNewestBlock(); //this is where the actual block is mined
+
+        proposedBlock.setData("Changed Transaction Data"); //data has been tampered with
+
+        node.updateNode(bc, proposedBlock);
+        if (node.isChainValidated()) {
+            System.out.println("Third Node validated");
+            bc = node.getProposedBlockChain();
+        } else {
+            System.out.println("Block has been rejected and not added to the chain");
+        }
+
         ArrayList<Block> chainTester = bc.getChain();
 
         for (Block b : chainTester) {

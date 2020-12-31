@@ -52,6 +52,11 @@ public class Block {
         return this.data;
     }
 
+    protected void setData(String newData) {
+        //This method's only purpose is to test if my Node class does it's job properly
+        this.data = newData;
+    }
+
     /**
      * Accesses the time the block was created.
      * @return a long representing the unique timeStamp of the Block
@@ -81,7 +86,7 @@ public class Block {
         byte[] bytes = null;
         try {
             digest = MessageDigest.getInstance("SHA-256");
-            bytes = digest.digest(dataToHash.getBytes("UTF_16"));
+            bytes = digest.digest(dataToHash.getBytes("UTF-8"));
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             ex.printStackTrace();
         }
