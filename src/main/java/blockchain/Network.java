@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Network {
 
-    public static final int DIFFICULTY = 4;
+    private static int difficulty = 3;
     private ArrayList<Miner> miners = new ArrayList<Miner>();
     private ArrayList<Node> nodes = new ArrayList<Node>();
 
@@ -17,4 +17,19 @@ public class Network {
     public Network() {
     }
 
+    /**
+     * Modifier used to change mining difficulty across the network.
+     * @param difficultyValue the number of leading zeros a valid hash must have
+     */
+    public static void setDifficulty(int difficultyValue) {
+        Network.difficulty = difficultyValue;
+    }
+
+    /**
+     * Accessor used to view the mining difficulty of the network.
+     * @return the current mining difficult of the blockchain network
+     */
+    public static int getDifficulty() {
+        return Network.difficulty;
+    }
 }

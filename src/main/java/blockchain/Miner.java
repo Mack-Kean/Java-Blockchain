@@ -39,7 +39,7 @@ public class Miner {
      * @return The newly mined Block to be added to the BlockChain
      */
     public Block getNewestBlock() {
-        this.minedBlock.mineBlock(Network.DIFFICULTY);
+        this.minedBlock.mineBlock(Network.getDifficulty());
         return this.minedBlock;
     }
 
