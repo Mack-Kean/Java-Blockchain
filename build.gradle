@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'checkstyle'
+    //id 'checkstyle'
 }
 
 sourceCompatibility = 1.8
@@ -13,5 +13,5 @@ repositories {
 }
 
 application {
-    mainClassName = "blockchain.Network"
+    mainClassName = "blockchain.NetworkSim"
 }
