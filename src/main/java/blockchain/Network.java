@@ -72,5 +72,37 @@ public class Network {
         } else {
             transactionMiner.newTransaction(transactionData, this.networkChain.getLastBlockHash());
         }
+        Block newlyMinedBlock = transactionMiner.getNewestBlock();
+        if (nodeConsensus(newlyMinedBlock)) {
+            //assumes there is at least 1 node in the network
+            this.networkChain = this.nodes.get(0).getProposedBlockChain();
+        } else {
+            System.out.println("Consensus was not reached: Block has been rejected");
+        }
+    }
+
+    private void initNodes(Block newlyCreatedBlock) {
+        for (Node n : this.nodes) {
+            n.updateNode(this.networkChain, newlyMinedBlock);
+        }
+    }
+
+    private boolean nodeConsensus(Block newlyCreatedBlock) {
+        //simulates the consensus of the ArrayList of nodes
+        boolean result = true;
+        BlockChain previousChain = this.nodes.get(0); //assumes there is at least 1 node in the network
+        this.initNodes(newlyCreatedBlock);
+        for (int i = 0; i < this.nodes.size(); i++) {
+            if (!(this.nodes.get(i).isChainValidated())) {
+                result = false; //if any node rejects the block
+                break;
+            }
+            if (!(this.nodes.get(i).getProposedBlockChain().equals(previousChain))) {
+                result = false;
+                break;
+            }
+            previousChain = this.nodes.get(i).getProposedBlockChain();
+        }
+        return result;
     }
 }
