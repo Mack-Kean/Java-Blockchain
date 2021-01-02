@@ -60,6 +60,21 @@ public class NetworkSim {
             System.out.println("Nonce Value: " + b.getNonce()); //shows how much work was needed to mine the block
         }
 
+        //BlockChain equals() test
+        System.out.println("\n\n"); //adds newlines
+        BlockChain bc2 = new BlockChain(bc.getChain());
+        if (bc2.equals(bc)) {
+            System.out.println("Second BlockChain equals the first");
+        } else {
+            System.out.println("BlockChains are not equal");
+        }
+
+        if (bc.equals(bc2)) {
+            System.out.println("First BlockChain equals the second");
+        } else {
+            System.out.println("BlockChains are not equal");
+        }
+
     }
 
 }

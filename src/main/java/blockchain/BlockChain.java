@@ -44,12 +44,32 @@ public class BlockChain {
     }
 
     /**
-     * Returns the hash value of the second-last block in the chain.
+     * Returns the hash value of the last block in the chain.
      * @return The SHA-256 hash value of the previous block stored in the last block in
      * the chain
      */
     public String getLastBlockHash() {
         return this.lastBlock.getHash();
+    }
+
+    /**
+     * If the object is a BlockChain, it's ArrayList member is tested
+     * against the current BlockChain ArrayList member.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof BlockChain)) {
+            return false;
+        }
+
+        BlockChain otherChain = (BlockChain) o;
+        ArrayList<Block> otherChainList = otherChain.getChain();
+        //the ArrayList equals() method is used to check that the chains are equal
+        return otherChainList.equals(this.getChain());
     }
 
 }
