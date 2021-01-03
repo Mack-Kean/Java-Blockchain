@@ -106,7 +106,7 @@ public class Network {
 
     private void initNodes(Block newlyMinedBlock) {
         int nodeNum = 1;
-        System.out.println("\ninitilizing Nodes with new block...");
+        System.out.println("\nInitilizing Nodes with new block...");
         Network.delay(1500);
         for (Node n : this.nodes) {
             System.out.print("Node " + nodeNum + " : ");
@@ -122,6 +122,7 @@ public class Network {
         boolean result = true;
         this.initNodes(newlyMinedBlock);
         BlockChain previousChain = this.nodes.get(0).getProposedBlockChain(); //assumes there is at least 1 node in the network
+        System.out.println("Starting Node Consensus protocol...");
 
         for (int i = 0; i < this.nodes.size(); i++) {
             Network.delay(600);

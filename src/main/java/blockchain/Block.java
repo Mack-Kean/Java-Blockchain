@@ -52,11 +52,6 @@ public class Block {
         return this.data;
     }
 
-    protected void setData(String newData) {
-        //This method's only purpose is to test if my Node class does it's job properly
-        this.data = newData;
-    }
-
     /**
      * Accesses the time the block was created.
      * @return a long representing the unique timeStamp of the Block
