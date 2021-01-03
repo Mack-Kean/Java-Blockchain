@@ -9,14 +9,19 @@ import java.util.ArrayList;
 public class Network {
 
     private static int difficulty = 1; //default difficulty unless otherwise specified
+    private static int transactionNumber = 0;
     private ArrayList<Miner> miners = new ArrayList<Miner>();
     private ArrayList<Node> nodes = new ArrayList<Node>();
     private BlockChain networkChain = new BlockChain();
+    private int minerNum = -1; //stores the integer value of the miner that mined the last block
 
     /**
      * Default constructor.
+     * Adds 1 miner and 1 node by default
      */
     public Network() {
+        this.addMiner();
+        this.addNode();
     }
 
     /**
@@ -57,6 +62,7 @@ public class Network {
             on a single peice of hardware */
         Random rand = new Random();
         int minerIndex = rand.nextInt(this.miners.size());
+        this.minerNum = minerIndex + 1; //stores the index of the 'winning' miner
         return this.miners.get(minerIndex);
     }
 
@@ -65,44 +71,67 @@ public class Network {
      * @param transactionData the String representing transaction data being input into the network
      */
     public void newTransaction(String transactionData) {
+        this.transactionNumber++;
+        System.out.println("TRANSACTION #" + this.transactionNumber + "\n"
+        + "-------------------------------------------------------");
         Miner transactionMiner = this.successfulMiner();
+
+        System.out.println("Sending Transaction data to all miners on the network");
         if (this.networkChain.getChain().size() == 0) {
             //this is the case for the genesis block only
             transactionMiner.newTransaction(transactionData, "0");
         } else {
             transactionMiner.newTransaction(transactionData, this.networkChain.getLastBlockHash());
         }
+
         Block newlyMinedBlock = transactionMiner.getNewestBlock();
+        System.out.println("Block mined successfuly by Miner " + this.minerNum);
+
         if (nodeConsensus(newlyMinedBlock)) {
             //assumes there is at least 1 node in the network
             this.networkChain = this.nodes.get(0).getProposedBlockChain();
+            System.out.println("Consensus was reached among all network nodes: Network chain updated");
         } else {
             System.out.println("Consensus was not reached: Block has been rejected");
         }
     }
 
-    private void initNodes(Block newlyCreatedBlock) {
+    //private void displayBlockInfo(Block displayBlock) {
+        
+    //}
+
+    private void initNodes(Block newlyMinedBlock) {
+        System.out.println("initilizing Nodes with new block...\n");
         for (Node n : this.nodes) {
             n.updateNode(this.networkChain, newlyMinedBlock);
         }
+        System.out.print("\n");
     }
 
-    private boolean nodeConsensus(Block newlyCreatedBlock) {
+    private boolean nodeConsensus(Block newlyMinedBlock) {
         //simulates the consensus of the ArrayList of nodes
         boolean result = true;
-        BlockChain previousChain = this.nodes.get(0); //assumes there is at least 1 node in the network
-        this.initNodes(newlyCreatedBlock);
+        this.initNodes(newlyMinedBlock);
+        BlockChain previousChain = this.nodes.get(0).getProposedBlockChain(); //assumes there is at least 1 node in the network
+
         for (int i = 0; i < this.nodes.size(); i++) {
             if (!(this.nodes.get(i).isChainValidated())) {
                 result = false; //if any node rejects the block
                 break;
+            } else {
+                System.out.println("Node " + (i + 1) + " proposed chain is valid");
             }
+
             if (!(this.nodes.get(i).getProposedBlockChain().equals(previousChain))) {
                 result = false;
                 break;
+            } else {
+                System.out.println("Node " + (i + 1) + " has reached consensus wih previous Nodes");
             }
+            System.out.print("\n");
             previousChain = this.nodes.get(i).getProposedBlockChain();
         }
+
         return result;
     }
 }

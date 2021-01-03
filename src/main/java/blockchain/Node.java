@@ -71,7 +71,8 @@ public class Node {
      * @param minedBlock The newest mined block that needs to be verified by the Nodes on the network
      */
     public void updateNode(BlockChain currentBlockChain, Block minedBlock) {
-        this.currentValidChain = currentBlockChain;
+        //currentValidChain is cloned here to avoid nodes changing each others BlockChains
+        this.currentValidChain = new BlockChain(new ArrayList<Block>(currentBlockChain.getChain()));
         this.newBlock = minedBlock;
         this.createProposedChain();
         this.chainValidated = Node.validateBlockChain(this.proposedChain);
@@ -89,6 +90,7 @@ public class Node {
      * @return a boolean value indicating validity of the Blockchain argument
      */
     public static boolean validateBlockChain(BlockChain proposedChain) {
+        System.out.println("Validating BlockChain...");
         ArrayList<Block> blockList = proposedChain.getChain();
         String lastHash = "0"; //this will always be the previous hash of the genesis block
         boolean valid = true; //chain assumed to be valid until proved otherwise

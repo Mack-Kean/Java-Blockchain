@@ -103,6 +103,7 @@ public class Block {
      * @return the unique 32 character block hash that conforms to the prefix
      */
     public String mineBlock(int prefix) {
+        System.out.println("Mining Block...");
         String prefixString = new String(new char[prefix]).replace('\0', '0');
         while (!hash.substring(0, prefix).equals(prefixString)) {
             this.nonce++;
