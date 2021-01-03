@@ -73,11 +73,12 @@ public class Network {
     public void newTransaction(String transactionData) {
         Network.transactionNumber++;
         System.out.println("-----------------------------------------------------------------------------\n" 
-        + "TRANSACTION #" + this.transactionNumber + "\n"
+        + "TRANSACTION #" + Network.transactionNumber + "\n"
         + "-----------------------------------------------------------------------------");
         Miner transactionMiner = this.successfulMiner();
 
-        System.out.println("Sending Transaction data to all miners on the network");
+        System.out.println("Sending Transaction data to all miners on the network...\n");
+        Network.delay(2000);
         if (this.networkChain.getChain().size() == 0) {
             //this is the case for the genesis block only
             transactionMiner.newTransaction(transactionData, "0");
@@ -106,12 +107,14 @@ public class Network {
     private void initNodes(Block newlyMinedBlock) {
         int nodeNum = 1;
         System.out.println("\ninitilizing Nodes with new block...");
+        Network.delay(1500);
         for (Node n : this.nodes) {
             System.out.print("Node " + nodeNum + " : ");
             n.updateNode(this.networkChain, newlyMinedBlock);
             nodeNum++;
+            Network.delay(1500);
         }
-        System.out.print("\n");
+        System.out.println("\n");
     }
 
     private boolean nodeConsensus(Block newlyMinedBlock) {
@@ -121,6 +124,7 @@ public class Network {
         BlockChain previousChain = this.nodes.get(0).getProposedBlockChain(); //assumes there is at least 1 node in the network
 
         for (int i = 0; i < this.nodes.size(); i++) {
+            Network.delay(600);
             if (!(this.nodes.get(i).isChainValidated())) {
                 result = false; //if any node rejects the block
                 break;
@@ -137,7 +141,16 @@ public class Network {
             System.out.print("\n");
             previousChain = this.nodes.get(i).getProposedBlockChain();
         }
-
+        Network.delay(600);
         return result;
+    }
+
+    protected static void delay(int milliseconds) {
+        // this method wraps around the try/catch seen below to add delay to the simulator
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 }

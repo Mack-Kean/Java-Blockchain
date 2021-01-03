@@ -13,6 +13,7 @@ public class NetworkSim {
     public static void main(String[] args) {
 
         Network blockChainNetwork = new Network();
+        Network.setDifficulty(4);
         blockChainNetwork.addNode();
         blockChainNetwork.addMiner();
         blockChainNetwork.newTransaction("Genesis transaction");

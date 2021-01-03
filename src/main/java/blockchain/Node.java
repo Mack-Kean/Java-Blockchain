@@ -90,7 +90,7 @@ public class Node {
      * @return a boolean value indicating validity of the Blockchain argument
      */
     public static boolean validateBlockChain(BlockChain proposedChain) {
-        System.out.println("Validating proposed BlockChain...");
+        System.out.print("Validating proposed BlockChain...\r");
         ArrayList<Block> blockList = proposedChain.getChain();
         String lastHash = "0"; //this will always be the previous hash of the genesis block
         boolean valid = true; //chain assumed to be valid until proved otherwise

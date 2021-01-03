@@ -104,11 +104,18 @@ public class Block {
      */
     public String mineBlock(int prefix) {
         System.out.println("Mining Block...");
+        Network.delay(100);
+        System.out.println("Initial Block Hash: " + this.hash);
+        System.out.println("Difficulty Level: " + Network.getDifficulty());
+        System.out.println("Incrementing Nonce value:");
         String prefixString = new String(new char[prefix]).replace('\0', '0');
         while (!hash.substring(0, prefix).equals(prefixString)) {
             this.nonce++;
             this.hash = calculateBlockHash();
+            System.out.print("Nonce = " + this.nonce + "\r");
         }
+        System.out.print("\n");
+        System.out.println("Mined Block Hash: " + this.hash);
         return hash;
     }
 
