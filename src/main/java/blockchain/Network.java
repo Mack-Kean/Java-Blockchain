@@ -71,9 +71,10 @@ public class Network {
      * @param transactionData the String representing transaction data being input into the network
      */
     public void newTransaction(String transactionData) {
-        this.transactionNumber++;
-        System.out.println("TRANSACTION #" + this.transactionNumber + "\n"
-        + "-------------------------------------------------------");
+        Network.transactionNumber++;
+        System.out.println("-----------------------------------------------------------------------------\n" 
+        + "TRANSACTION #" + this.transactionNumber + "\n"
+        + "-----------------------------------------------------------------------------");
         Miner transactionMiner = this.successfulMiner();
 
         System.out.println("Sending Transaction data to all miners on the network");
@@ -90,9 +91,11 @@ public class Network {
         if (nodeConsensus(newlyMinedBlock)) {
             //assumes there is at least 1 node in the network
             this.networkChain = this.nodes.get(0).getProposedBlockChain();
-            System.out.println("Consensus was reached among all network nodes: Network chain updated");
+            System.out.println("Consensus was reached among all network nodes: Network chain updated\n"
+            + "-----------------------------------------------------------------------------\n\n");
         } else {
-            System.out.println("Consensus was not reached: Block has been rejected");
+            System.out.println("Consensus was not reached: Block has been rejected\n"
+            + "-----------------------------------------------------------------------------\n\n");
         }
     }
 
@@ -101,9 +104,12 @@ public class Network {
     //}
 
     private void initNodes(Block newlyMinedBlock) {
-        System.out.println("initilizing Nodes with new block...\n");
+        int nodeNum = 1;
+        System.out.println("\ninitilizing Nodes with new block...");
         for (Node n : this.nodes) {
+            System.out.print("Node " + nodeNum + " : ");
             n.updateNode(this.networkChain, newlyMinedBlock);
+            nodeNum++;
         }
         System.out.print("\n");
     }
