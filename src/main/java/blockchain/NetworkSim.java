@@ -14,9 +14,7 @@ public class NetworkSim {
     public static void main(String[] args) {
 
         Network blockChainNetwork = new Network();
-        boolean validInput = false;
-        String errorMessage = "Please enter a positive integer value!\n"
-            + "Keep in mind that bigger difficulty values take much more time to mine";
+        boolean validInput = false, inputInvalid;
 
         System.out.println("Welcome to the proof-of-work BlockChain simulation\n"
         + "This is a proof of concept meant to immitate a cryptocurrency BlockChain network\n"
@@ -25,21 +23,48 @@ public class NetworkSim {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("Enter Mining Difficulty: ");
+            inputInvalid = false;
+            int difficulty = 0;
+            System.out.print("\nEnter Mining Difficulty for the Network: ");
             try {
-                int difficulty = sc.nextInt(); //this is what will throw an exception if one is thrown
-                if (difficulty < 1) {
-                    System.out.println(errorMessage);
+                difficulty = Integer.parseInt(sc.nextLine()); //this is what will throw an exception if one is thrown            
+            } catch (Exception e) {
+                inputInvalid = true;
+                difficulty = -1; //default value used in finally block
+            } finally {
+                if (difficulty < 1 || inputInvalid) {
+                    System.out.println("\nPlease enter a positive integer value!\n"
+                    + "Keep in mind that bigger difficulty values take much more time to mine");
                 } else {
                     validInput = true;
-                }                
+                    Network.setDifficulty(difficulty);
+                }   
+            }
+        } while (!validInput);
+
+        validInput = false;
+
+        do {
+            inputInvalid = false;
+            int nodeNum = 0;
+            System.out.print("\nHow many Nodes would you like on the Network? ");
+            try {
+                nodeNum = Integer.parseInt(sc.nextLine()); //this is what will throw an exception if one is thrown
             } catch (Exception e) {
-                System.out.println(errorMessage);
+                inputInvalid = true;
+                nodeNum = -1; //default value used in finally block
+            } finally {
+                if (nodeNum < 1 || inputInvalid) {
+                    System.out.println("\nPlease enter a positive integer value!\n"
+                    + "The network needs nodes in order to work");
+                } else {
+                    validInput = true;
+                    //Call some code here
+                }   
             }
         } while (!validInput);
 
         sc.close();
-
 
     }
 
