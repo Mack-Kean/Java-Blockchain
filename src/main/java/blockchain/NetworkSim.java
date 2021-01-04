@@ -88,6 +88,18 @@ public class NetworkSim {
             }
         } while (!validInput);
 
+        while (true) {
+            System.out.println("\nEnter any type of data you want used to create a new transaction block\n"
+            + "or enter 'quit' to end the program\n");
+            String inputString = sc.nextLine();
+            if (inputString.equalsIgnoreCase("quit")) {
+                System.out.println("\nSimulator terminated");
+                break;
+            } else {
+                blockChainNetwork.newTransaction(inputString);
+            }
+        }
+
         sc.close();
 
     }
