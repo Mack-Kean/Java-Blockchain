@@ -24,6 +24,52 @@ public class NetworkSim {
 
         do {
             inputInvalid = false;
+            int nodeNum = 0;
+            System.out.print("\nHow many Nodes would you like on the Network? ");
+            try {
+                nodeNum = Integer.parseInt(sc.nextLine()); //this is what will throw an exception if one is thrown
+            } catch (Exception e) {
+                inputInvalid = true;
+                nodeNum = -1; //default value used in finally block
+            } finally {
+                if (nodeNum < 1 || inputInvalid) {
+                    System.out.println("\nPlease enter a positive integer value!\n"
+                    + "The network needs nodes in order to work");
+                } else {
+                    validInput = true;
+                    for (int i = 1; i < nodeNum; i++) {
+                        blockChainNetwork.addNode();
+                    }
+                }   
+            }
+        } while (!validInput);
+
+        do {
+            inputInvalid = false;
+            int minerNum = 0;
+            System.out.print("\nHow many Miners would you like on the Network? ");
+            try {
+                minerNum = Integer.parseInt(sc.nextLine()); //this is what will throw an exception if one is thrown
+            } catch (Exception e) {
+                inputInvalid = true;
+                minerNum = -1; //default value used in finally block
+            } finally {
+                if (minerNum < 1 || inputInvalid) {
+                    System.out.println("\nPlease enter a positive integer value!\n"
+                    + "The network needs miners in order to work");
+                } else {
+                    validInput = true;
+                    for (int i = 1; i < minerNum; i++) {
+                        blockChainNetwork.addMiner();
+                    }
+                }   
+            }
+        } while (!validInput);
+
+        validInput = false;
+
+        do {
+            inputInvalid = false;
             int difficulty = 0;
             System.out.print("\nEnter Mining Difficulty for the Network: ");
             try {
@@ -38,28 +84,6 @@ public class NetworkSim {
                 } else {
                     validInput = true;
                     Network.setDifficulty(difficulty);
-                }   
-            }
-        } while (!validInput);
-
-        validInput = false;
-
-        do {
-            inputInvalid = false;
-            int nodeNum = 0;
-            System.out.print("\nHow many Nodes would you like on the Network? ");
-            try {
-                nodeNum = Integer.parseInt(sc.nextLine()); //this is what will throw an exception if one is thrown
-            } catch (Exception e) {
-                inputInvalid = true;
-                nodeNum = -1; //default value used in finally block
-            } finally {
-                if (nodeNum < 1 || inputInvalid) {
-                    System.out.println("\nPlease enter a positive integer value!\n"
-                    + "The network needs nodes in order to work");
-                } else {
-                    validInput = true;
-                    //Call some code here
                 }   
             }
         } while (!validInput);
