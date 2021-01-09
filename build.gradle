@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     //id 'checkstyle'
 }
 
@@ -12,8 +13,24 @@ repositories {
     mavenCentral()
 }
 
+configurations{
+  shadow
+}
+
 run{
     standardInput = System.in
+}
+jar {
+  manifest{
+
+  }
+}
+
+shadowJar {
+   archiveBaseName = 'Simulator'
+   classifier = ''
+   archiveVersion = ''
+
 }
 
 application {
